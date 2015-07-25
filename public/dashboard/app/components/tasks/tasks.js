@@ -9,7 +9,7 @@ define(['app'], function (app) {
                              '  <h4>Error:</h4>'+
                              '  <p>'+data.errorMessage+'</p>'+
                              '</div>';
-        } 
+        }
         $scope.runningJobs = [];
         for (var runningJob in data.runningJobs) {
           $scope.runningJobs.push(data.runningJobs[runningJob]);
@@ -30,7 +30,7 @@ define(['app'], function (app) {
                              '  <h4>Error:</h4>'+
                              '  <p>'+data.errorMessage+'</p>'+
                              '</div>';
-        } 
+        }
         $scope.delayedJobs = [];
         for (var delayedJob in data.delayedJobs) {
           $scope.delayedJobs.push(data.delayedJobs[delayedJob]);
@@ -56,7 +56,7 @@ define(['app'], function (app) {
                              '  <h4>Error:</h4>'+
                              '  <p>'+data.errorMessage+'</p>'+
                              '</div>';
-        } 
+        }
         $scope.failedJobs = [];
         for (var failedJob in data.failedJobs) {
           var tempFailedJob = JSON.parse(data.failedJobs[failedJob]);
@@ -75,22 +75,14 @@ define(['app'], function (app) {
 
     $scope.reEnqueueTask = function(taskDefinition){
       delete taskDefinition.failed_at_millis;
-      $.ajax({
-        type: "POST",
-        url: ahDashboardCommunicationService.options.apiPath + '/reEnqueueTask',
-        data:  JSON.stringify({taskdefinition: taskDefinition.plain}),
-        success:  function (data) {
-        },
-        contentType: 'application/json'
-      });
+      ahDashboardCommunicationService.action('reEnqueueTask', {taskdefinition: taskDefinition.plain}, function(err, data){});
     };
 
-
-    /*     
+    /*
      * Add collapse and remove events to boxes
      */
     $("[data-widget='collapse']").click(function() {
-        //Find the box parent        
+        //Find the box parent
         var box = $(this).parents(".box").first();
         //Find the body and the footer
         var bf = box.find(".box-body, .box-footer");
